@@ -51,13 +51,14 @@ func HttpGet(ip string, poc Poc) (*http.Response, error) {
 		return nil, err
 
 	}
-	if poc.Rule.Headers.ContentType != "" {
-		resp.Header.Add("Content-Type", poc.Rule.Headers.ContentType)
+	if len(poc.Rule.Header) > 0 {
+		for k, v := range poc.Rule.Header {
+			resp.Header.Add(k, v)
+		}
+	} else {
+		resp.Header.Add("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0)")
 	}
-	if poc.Rule.Headers.Cookie != "" {
-		resp.Header.Add("Cookie", poc.Rule.Headers.Cookie)
-	}
-	resp.Header.Add("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0)")
+
 	resp = resp.WithContext(ctx)
 
 	return http.DefaultClient.Do(resp)
@@ -76,11 +77,13 @@ func HttpPost(ip string, poc Poc) (*http.Response, error) {
 	if err != nil {
 		return nil, err
 	}
-	if poc.Rule.Headers.ContentType != "" {
-		resp.Header.Add("Content-Type", poc.Rule.Headers.ContentType)
-	}
-	if poc.Rule.Headers.Cookie != "" {
-		resp.Header.Add("Cookie", poc.Rule.Headers.Cookie)
+
+	if len(poc.Rule.Header) > 0 {
+		for k, v := range poc.Rule.Header {
+			resp.Header.Add(k, v)
+		}
+	} else {
+		resp.Header.Add("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0)")
 	}
 	resp.Header.Add("user-agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0)")
 	resp = resp.WithContext(ctx)
@@ -133,6 +136,10 @@ func GetResult() {
 		for k, v := range result {
 			fmt.Printf("%s    |    %s\n", k, v)
 		}
+		fmt.Println("----------------------------------------------------------------")
+	} else {
+		fmt.Println("----------------------------------------------------------------")
+		fmt.Println("All target checked. none of them has Vulnerability")
 		fmt.Println("----------------------------------------------------------------")
 	}
 }
