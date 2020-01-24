@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"context"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -120,6 +119,9 @@ func Request(ip string, pocs []Poc) {
 					result[ip] = poc.Name
 
 					log.Println(ip + "  Vulnerability detected，The poc:" + poc.Name)
+					if len(Output) > 0 {
+						AppendToFile(Output, ip+"  ------------"+poc.Name+"\n")
+					}
 
 				}
 			}
@@ -127,19 +129,4 @@ func Request(ip string, pocs []Poc) {
 
 	}
 
-}
-
-func GetResult() {
-	if len(result) > 0 {
-		fmt.Printf("%d target detected Vulnerability\n", len(result))
-		fmt.Println("----------------------------------------------------------------")
-		for k, v := range result {
-			fmt.Printf("%s    |    %s\n", k, v)
-		}
-		fmt.Println("----------------------------------------------------------------")
-	} else {
-		fmt.Println("----------------------------------------------------------------")
-		fmt.Println("All target checked. none of them has Vulnerability")
-		fmt.Println("----------------------------------------------------------------")
-	}
 }

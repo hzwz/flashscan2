@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-01-21 10:46:49
- * @LastEditTime : 2020-01-24 01:29:08
+ * @LastEditTime : 2020-01-24 22:02:14
  * @LastEditors  : Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /flashscan/modle.go
@@ -9,11 +9,8 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
-	"os"
-	"strings"
 
 	"gopkg.in/yaml.v2"
 )
@@ -58,48 +55,4 @@ func (c *Poc) getConf(path string) Poc {
 		log.Fatalf("Unmarshal: %v", err)
 	}
 	return bs
-}
-
-func Getpoc() []Poc {
-	pwd, _ := os.Getwd()
-	//获取文件或目录相关信息
-	fileInfoList, err := ioutil.ReadDir(pwd + "/poc")
-	if err != nil {
-		log.Fatal(err)
-	}
-	slice := []Poc{}
-	for i := range fileInfoList {
-		a := strings.ToUpper(PocPath)
-		if a == "ALL" {
-			var c Poc
-			slice = append(slice, c.getConf(pwd+"/poc/"+fileInfoList[i].Name()))
-		} else {
-			if strings.Index(strings.ToUpper(fileInfoList[i].Name()), a) != -1 {
-				var c Poc
-				slice = append(slice, c.getConf(pwd+"/poc/"+fileInfoList[i].Name()))
-			}
-
-		}
-	}
-	if len(slice) == 0 {
-		fmt.Println("-poc 参数设置错误")
-		os.Exit(1)
-	}
-	return slice
-
-}
-
-func ReadAll(path string) []byte {
-	f, err := os.Open(path)
-	if err != nil {
-		fmt.Println(err)
-
-	}
-
-	data, err := ioutil.ReadAll(f)
-	if err != nil {
-		fmt.Println(err)
-
-	}
-	return data
 }

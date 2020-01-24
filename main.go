@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-01-19 15:26:26
- * @LastEditTime : 2020-01-22 23:51:17
+ * @LastEditTime : 2020-01-24 23:08:54
  * @LastEditors  : Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /flashscan/main.go
@@ -23,16 +23,18 @@ var (
 	Port       int
 	ThreadNum  int
 	PocPath    string
+	Output     string
 )
 var result map[string]string = map[string]string{}
 
 func init() {
-	flag.BoolVar(&h, "h", false, "help")
-	flag.StringVar(&HttpMethod, "m", "", "http method,http or https")
-	flag.StringVar(&IpFile, "f", "", "the file of the target")
-	flag.IntVar(&Port, "p", 80, "the Port of target")
-	flag.IntVar(&ThreadNum, "t", 100, "the num of threads")
-	flag.StringVar(&PocPath, "poc", "", "the file of the target")
+	flag.BoolVar(&h, "h", false, "Help")
+	flag.StringVar(&HttpMethod, "m", "", "Http method,http or https")
+	flag.StringVar(&IpFile, "f", "", "The file of the target")
+	flag.IntVar(&Port, "p", 80, "The Port of target")
+	flag.IntVar(&ThreadNum, "t", 100, "The num of threads")
+	flag.StringVar(&PocPath, "poc", "", "The file of the target")
+	flag.StringVar(&Output, "o", "", "The output file path of result")
 	flag.Usage = usage
 	flag.Parse()
 	if h {
@@ -54,18 +56,7 @@ Options:
 
 func main() {
 	pocs := Getpoc()
-
-	fmt.Println(`
-	.d888 888                   888                                          
-	d88P"  888                   888                                          
-	888    888                   888                                          
-	888888 888  8888b.  .d8888b  88888b.  .d8888b   .d8888b  8888b.  88888b.  
-	888    888     "88b 88K      888 "88b 88K      d88P"        "88b 888 "88b 
-	888    888 .d888888 "Y8888b. 888  888 "Y8888b. 888      .d888888 888  888 
-	888    888 888  888      X88 888  888      X88 Y88b.    888  888 888  888 
-	888    888 "Y888888  88888P' 888  888  88888P'  "Y8888P "Y888888 888  888 																							  
-	`)
-
+	Head()
 	p := NewPool(ThreadNum)
 
 	file, err := os.Open("20191031.txt")
