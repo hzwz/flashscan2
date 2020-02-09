@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-01-21 10:46:49
- * @LastEditTime : 2020-01-24 22:02:14
- * @LastEditors  : Please set LastEditors
+ * @LastEditTime: 2020-01-27 17:06:45
+ * @LastEditors: your name
  * @Description: In User Settings Edit
  * @FilePath: /flashscan/modle.go
  */
@@ -31,13 +31,6 @@ type Rules struct {
 }
 type Headers map[string]string
 
-/*
-type Header struct {
-	ContentType string `yaml:"contenttype`
-	Cookie      string `yaml:cookie`
-	UserAgent   string `yaml:useragent`
-}
-*/
 type Details struct {
 	Link   string `yaml:link`
 	Author string `yaml:author`

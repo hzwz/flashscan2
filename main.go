@@ -1,9 +1,9 @@
 /*
- * @Author: your name
+ * @Author: wsm
  * @Date: 2020-01-19 15:26:26
- * @LastEditTime : 2020-01-24 23:08:54
+ * @LastEditTime : 2020-02-09 19:58:46
  * @LastEditors  : Please set LastEditors
- * @Description: In User Settings Edit
+ * @Description:
  * @FilePath: /flashscan/main.go
  */
 package main
@@ -14,6 +14,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"time"
 )
 
 var (
@@ -46,20 +47,13 @@ func init() {
 		os.Exit(0)
 	}
 }
-func usage() {
-	fmt.Fprintf(os.Stderr, `quantum version: quantum/1.0.0
-Usage: flashscan -m http -p 80 -f ip.txt -poc dedecms -t 100
-Options:
-`)
-	flag.PrintDefaults()
-}
 
 func main() {
 	pocs := Getpoc()
 	Head()
 	p := NewPool(ThreadNum)
 
-	file, err := os.Open("20191031.txt")
+	file, err := os.Open(IpFile)
 	if err != nil {
 		fmt.Println("open file failed!, err:", err)
 		return
@@ -70,11 +64,14 @@ func main() {
 			line, err := rd.ReadString('\n')
 			if err != nil {
 				//break
+				time.Sleep(6 * time.Second)
+
 			}
 			if io.EOF == err {
 				p.EntryChannel <- NewTask(func() error {
+
 					GetResult()
-					os.Exit(1)
+					os.Exit(0)
 					return nil
 				})
 
@@ -83,7 +80,9 @@ func main() {
 				Request(line[:len(line)-1], pocs)
 				return nil
 			})
+
 		}
+
 	}()
 
 	//启动协程池p

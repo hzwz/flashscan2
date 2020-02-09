@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -75,13 +76,14 @@ func Head() {
 	888    888     "88b 88K      888 "88b 88K      d88P"        "88b 888 "88b 
 	888    888 .d888888 "Y8888b. 888  888 "Y8888b. 888      .d888888 888  888 
 	888    888 888  888      X88 888  888      X88 Y88b.    888  888 888  888 
-	888    888 "Y888888  88888P' 888  888  88888P'  "Y8888P "Y888888 888  888 																							  
+	888    888 "Y888888  88888P' 888  888  88888P'  "Y8888P "Y888888 888  888 
+	-------------------------------------------------------------------------																							  
 	`)
 }
 
 func AppendToFile(fileName string, content string) error {
 	// 以只写的模式，打开文件
-	f, err := os.OpenFile(fileName, os.O_WRONLY, 0644)
+	f, err := os.OpenFile(fileName, os.O_RDWR|os.O_CREATE, 0766)
 	if err != nil {
 		fmt.Println("cacheFileList.yml file create failed. err: " + err.Error())
 	} else {
@@ -92,4 +94,12 @@ func AppendToFile(fileName string, content string) error {
 	}
 	defer f.Close()
 	return err
+}
+
+func usage() {
+	fmt.Fprintf(os.Stderr, `quantum version: quantum/1.0.0
+Usage: flashscan -m http -p 80 -f ip.log -poc dedecms -t 100 -o result.log
+Options:
+`)
+	flag.PrintDefaults()
 }

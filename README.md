@@ -1,4 +1,4 @@
-# flashscan 
+# Flashscan 
 ## About 
 
 Flash scan is a pocscanner of Websites. 
@@ -17,7 +17,6 @@ root@kali# ./flashscan -h
 -----
 ### __Help Section__
 ```
-Usage: flashscan -m http -p 80 -f ip.txt -poc dedecms -t 100
 Options:
   -f string
         The file of the target
