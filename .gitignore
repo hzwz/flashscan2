@@ -1,2 +1,4 @@
 *.txt
 *.log
+.DS_Store
+.gitignore
