@@ -106,7 +106,7 @@ func Request(ip string, pocs []Poc) {
 		if err != nil {
 			continue
 		}
-		if r.StatusCode == poc.Rule.Status {
+		if r.StatusCode == poc.Rule.Status || poc.Rule.Status == 0 {
 			bodyReader := bufio.NewReader(r.Body)
 			e := determineEncoding(bodyReader)
 			decodeReader := transform.NewReader(bodyReader, e.NewDecoder())

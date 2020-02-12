@@ -1,7 +1,7 @@
 /*
  * @Author: wsm
  * @Date: 2020-01-19 15:26:26
- * @LastEditTime : 2020-02-09 19:58:46
+ * @LastEditTime : 2020-02-12 11:08:22
  * @LastEditors  : Please set LastEditors
  * @Description:
  * @FilePath: /flashscan/main.go
@@ -63,8 +63,7 @@ func main() {
 		for {
 			line, err := rd.ReadString('\n')
 			if err != nil {
-				//break
-				time.Sleep(6 * time.Second)
+				time.Sleep(10 * time.Second)
 
 			}
 			if io.EOF == err {

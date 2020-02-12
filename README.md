@@ -36,7 +36,7 @@ Options:
 ### __Example Section__
 #### *Command line examples*
 ```bash
-root@kali# root@kali# ./flashscan -m http -p 80 -f 20191031.txt -poc phpstudy -t 10 -o result.txt
+root@kali# ./flashscan -m http -p 80 -f 20191031.txt -poc phpstudy -t 10 -o result.txt
 ```
 -----
 
