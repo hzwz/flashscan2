@@ -1,7 +1,7 @@
 /*
  * @Author: wsm
  * @Date: 2020-01-19 15:26:26
- * @LastEditTime : 2020-02-12 11:08:22
+ * @LastEditTime : 2020-02-12 18:18:48
  * @LastEditors  : Please set LastEditors
  * @Description:
  * @FilePath: /flashscan/main.go
@@ -12,8 +12,8 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
-	"io"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -61,22 +61,19 @@ func main() {
 	rd := bufio.NewReader(file)
 	go func() {
 		for {
-			line, err := rd.ReadString('\n')
-			if err != nil {
-				time.Sleep(10 * time.Second)
-
-			}
-			if io.EOF == err {
+			line, _ := rd.ReadString('\n')
+			line = strings.Replace(line, "\n", "", -1)
+			if line == "" {
 				p.EntryChannel <- NewTask(func() error {
-
+					time.Sleep(10 * time.Second)
 					GetResult()
 					os.Exit(0)
 					return nil
 				})
-
+				break
 			}
 			p.EntryChannel <- NewTask(func() error {
-				Request(line[:len(line)-1], pocs)
+				Request(line, pocs)
 				return nil
 			})
 
